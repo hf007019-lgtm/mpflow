@@ -1,0 +1,40 @@
+# Environment variables and local secrets
+.env
+.env.*
+.env.local
+.env.production
+.env.development
+.claude/
+
+# Frontend dependencies and build output
+**/node_modules/
+**/.next/
+**/dist/
+**/out/
+**/build/
+**/*.tsbuildinfo
+
+# Python backend artifacts
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/venv/
+
+# Databases, certificates, runtime data, logs
+**/*.db
+**/*.sqlite
+**/certs/
+data/
+**/data/
+logs/
+**/logs/
+*.log
+**/*.log
+
+# System files
+**/.DS_Store
+
+# Local archives
+*.zip
+*.tar.gz
+*.rar

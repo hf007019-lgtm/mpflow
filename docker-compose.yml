@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: mp-backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    environment:
+      - AUTH_SECRET=${AUTH_SECRET:?AUTH_SECRET is required}
+      - INTERNAL_API_TOKEN=${INTERNAL_API_TOKEN:?INTERNAL_API_TOKEN is required}
+      - INTERNAL_BILLING_URL=http://frontend:3000/api/internal/billing/deduct
+    ports:
+      - "127.0.0.1:8100:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-}
+        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://mpflowapp.com}
+    container_name: mp-frontend
+    restart: always
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - NEXTAUTH_URL=https://mpflowapp.com
+      - BASE_URL=https://mpflowapp.com
+      - AUTH_URL=https://mpflowapp.com
+      - DATABASE_URL=file:/app/data/dev.db
+      - AUTH_SECRET=${AUTH_SECRET:?AUTH_SECRET is required}
+      - AUTH_LOGTO_ID=${AUTH_LOGTO_ID:?AUTH_LOGTO_ID is required}
+      - AUTH_LOGTO_SECRET=${AUTH_LOGTO_SECRET:?AUTH_LOGTO_SECRET is required}
+      - AUTH_LOGTO_ISSUER=${AUTH_LOGTO_ISSUER:?AUTH_LOGTO_ISSUER is required}
+      - ADMIN_USER=${ADMIN_USER:?ADMIN_USER is required}
+      - ADMIN_PASS=${ADMIN_PASS:?ADMIN_PASS is required}
+      - INTERNAL_API_TOKEN=${INTERNAL_API_TOKEN:?INTERNAL_API_TOKEN is required}
+    volumes:
+      - ./frontend/data:/app/data
+    depends_on:
+      - backend

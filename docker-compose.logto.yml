@@ -1,0 +1,52 @@
+# ───── Logto 开源版 + PostgreSQL ─────
+# 启动: docker compose -f docker-compose.logto.yml up -d
+# 首次访问: http://localhost:3001
+# 管理控制台: http://localhost:3002
+
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: logto-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: logto
+      POSTGRES_PASSWORD: ${LOGTO_POSTGRES_PASSWORD:?LOGTO_POSTGRES_PASSWORD is required}
+      POSTGRES_DB: logto
+    volumes:
+      - logto_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logto"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  logto:
+    image: ghcr.io/logto-io/logto:latest
+    container_name: logto-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    environment:
+      # 所有以 OIDC- 开头的 tag 会在 Logto 初始化时写入数据库，只读一次
+      # 如需修改，删掉 postgres volume 重新创建容器
+      TRUST_PROXY_HEADER: "1"
+      DB_URL: postgresql://logto:${LOGTO_POSTGRES_PASSWORD:?LOGTO_POSTGRES_PASSWORD is required}@postgres:5432/logto
+      ENDPOINT: https://auth.mpflowapp.com
+      ADMIN_ENDPOINT: http://64.90.3.144:3002
+      # 首次启动自动创建的 Admin 控制台账号（生产环境务必改掉）
+      # 启动后在 http://localhost:3002 用此账号登录
+      # 若无此变量，首次访问时引导创建
+      # — 下面两个是可选的，不加则首次访问 Web UI 时手动创建 —
+      # ADMIN_USERNAME: admin
+      # ADMIN_PASSWORD: logto-admin-pwd
+
+volumes:
+  logto_pgdata:

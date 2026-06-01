@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #d6d3d1 transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 3px;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-stone-50 text-stone-800 antialiased;
+    scrollbar-gutter: stable;
+  }
+}
+
+/* ───── animated dot grid animation ───── */
+@keyframes drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+/* ───── markdown preview — book-like page ───── */
+.prose-preview h1 {
+  @apply text-2xl font-serif font-semibold mt-12 mb-6 text-stone-900 tracking-tight leading-snug;
+}
+.prose-preview h2 {
+  @apply text-xl font-serif font-semibold mt-12 mb-5 text-stone-800 tracking-tight leading-snug;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid #e7e5e4;
+}
+.prose-preview h3 {
+  @apply text-lg font-medium mt-8 mb-4 text-stone-700 leading-snug;
+}
+.prose-preview p {
+  @apply my-5 leading-loose text-[16px] text-stone-600;
+}
+.prose-preview strong {
+  @apply text-stone-800 font-semibold;
+}
+.prose-preview em {
+  @apply text-stone-500;
+}
+.prose-preview blockquote {
+  @apply border-l-2 border-stone-300 pl-5 py-1 my-6 text-stone-500 italic leading-relaxed;
+}
+.prose-preview ul,
+.prose-preview ol {
+  @apply my-5 pl-6 text-stone-600 space-y-2;
+}
+.prose-preview li {
+  @apply leading-relaxed;
+}
+.prose-preview li::marker {
+  @apply text-stone-400;
+}
+.prose-preview img {
+  @apply rounded-xl my-8 max-w-full;
+  background: #f5f5f4;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+}
+.prose-preview a {
+  @apply text-stone-700 hover:text-stone-900 underline decoration-stone-300 underline-offset-2 transition-colors;
+}
+.prose-preview hr {
+  @apply my-12 border-stone-200;
+}
+.prose-preview code {
+  @apply bg-stone-100 px-1.5 py-0.5 rounded-md text-[14px] text-stone-600 font-mono;
+}
+.prose-preview pre {
+  @apply bg-stone-100 p-5 rounded-2xl overflow-x-auto my-6 border border-stone-200/60;
+}
+.prose-preview pre code {
+  @apply bg-transparent p-0 text-stone-600 text-[14px];
+}
+.prose-preview table {
+  @apply w-full my-6 border-collapse;
+}
+.prose-preview th {
+  @apply border border-stone-200 bg-stone-50 px-4 py-2.5 text-left text-sm font-medium text-stone-700;
+}
+.prose-preview td {
+  @apply border border-stone-200 px-4 py-2.5 text-sm text-stone-500;
+}
