@@ -19,15 +19,15 @@ services:
       context: ./frontend
       args:
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-}
-        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://mpflowapp.com}
+        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:?NEXT_PUBLIC_APP_URL is required}
     container_name: mp-frontend
     restart: always
     ports:
       - "127.0.0.1:3000:3000"
     environment:
-      - NEXTAUTH_URL=https://mpflowapp.com
-      - BASE_URL=https://mpflowapp.com
-      - AUTH_URL=https://mpflowapp.com
+      - NEXTAUTH_URL=${NEXT_PUBLIC_APP_URL:?NEXT_PUBLIC_APP_URL is required}
+      - BASE_URL=${NEXT_PUBLIC_APP_URL:?NEXT_PUBLIC_APP_URL is required}
+      - AUTH_URL=${NEXT_PUBLIC_APP_URL:?NEXT_PUBLIC_APP_URL is required}
       - DATABASE_URL=file:/app/data/dev.db
       - AUTH_SECRET=${AUTH_SECRET:?AUTH_SECRET is required}
       - AUTH_LOGTO_ID=${AUTH_LOGTO_ID:?AUTH_LOGTO_ID is required}

@@ -40,6 +40,7 @@ RATE_LIMIT=10/minute
 
 ```ini
 DOMAIN=你的域名.com
+NEXT_PUBLIC_APP_URL=https://mpflowapp.com
 AUTH_SECRET=与 backend/.env 里的 AUTH_SECRET 一致
 INTERNAL_API_TOKEN=与 backend/.env 里的 INTERNAL_API_TOKEN 一致
 ```
@@ -116,6 +117,7 @@ INTERNAL_API_TOKEN=与 backend .env 中 INTERNAL_API_TOKEN 一致
 | `AUTH_SECRET` | backend/.env + 根 .env | 生产必填 | JWT 签名与后端校验 |
 | `INTERNAL_API_TOKEN` | backend/.env + 根 .env | 生产必填 | Docker 内网扣费接口鉴权，不暴露到浏览器 |
 | `DOMAIN` | 根 .env | 生产必填 | 你的域名 |
+| `NEXT_PUBLIC_APP_URL` | 根 .env | 生产必填 | 生产应用外部访问地址，例如 `https://mpflowapp.com` |
 | `RATE_LIMIT` | backend/.env | 可选 | 默认 10/min |
 
 ---
